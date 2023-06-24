@@ -2,11 +2,19 @@ const express = require("express");
 const app = express();
 
 
-app.use(express.json());//res.json(data)などを使う時のためのもの
 
-const PORT = 80;
 
 app.use(express.static("public"));
+app.use(express.json());//res.json(data)などを使う時のためのもの
+
+const PORT = 3000;
+
+const userRoute = require("./routes/user");
+
+
+app.get("/", (req,res) =>{
+    res.send("Hello");
+})
 
 
 
@@ -19,6 +27,10 @@ app.get("/hello/:name", (req, res) => {
 
 
 
+
+
+
+app.use("/api/v1/users", userRoute);
 
 
 app.listen(PORT, () =>{
