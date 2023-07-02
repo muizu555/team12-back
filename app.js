@@ -23,12 +23,6 @@ app.get("/", (req,res) =>{
 
 
 
-app.get("/hello/:name", (req, res) => {
-    console.log(req.params.name);//ターミナルに表示させる
-    res.send("OK\n");
-});
-
-
 
 
 
