@@ -22,11 +22,6 @@ app.get("/", (req,res) =>{
     res.send("Hello");
 })
 
-app.get("/hello", (req,res) =>{
-    res.send("こんにちは");
-})
-
-
 
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
