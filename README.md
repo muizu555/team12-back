@@ -5,6 +5,7 @@
 nodemonを使ってコード変更を監視して、自動でNode.jsのアプリケーションを再起動できるようにしている(package.jsonに記載)
 npm run devでPort3000にサーバーが建ちます (npm run startではありません)
 app.jsがmainです
+DBはMONGODBを使いました
 
 # branchについて
 masterがmainブランチです
