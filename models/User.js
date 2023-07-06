@@ -8,10 +8,7 @@ const UserSchema = new mongoose.Schema({//userIdはobjectIdでひとまずは良
         max: 20,
         unique: true,
     },
-    password: {
-        type: String,
-        required: true,
-    },
+    
     followers: {//もし、フォロー、フォロワーの中だけしかランキングを見せたくないという時
         type: Array,
         default: [],
@@ -20,9 +17,11 @@ const UserSchema = new mongoose.Schema({//userIdはobjectIdでひとまずは良
         type: Array,
         default: [],
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
+    rank: {
+        type: String,
+    },
+    amount: {//総再生時間、その日の 12時くらいにその日のデータを全て消したいよね
+        type: String,
     },
     desc: {//もし概要欄などを書く場合
         type: String,
@@ -34,4 +33,8 @@ const UserSchema = new mongoose.Schema({//userIdはobjectIdでひとまずは良
 );
 
 module.exports = mongoose.model("User", UserSchema);
+
+
+
+
 
