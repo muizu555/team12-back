@@ -6,6 +6,7 @@ nodemonを使ってコード変更を監視して、自動でNode.jsのアプリ
 npm run devでPort3000にサーバーが建ちます (npm run startではありません)
 app.jsがmainです
 DBはMONGODBを使いました
+publicというディレクトリに静的ファイル(html,css,jsを書いていってください)
 
 # branchについて
 masterがmainブランチです
