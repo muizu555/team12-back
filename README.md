@@ -9,7 +9,7 @@ DBはMONGODBを使いました
 publicというディレクトリに静的ファイル(html,css,jsを書いていってください)
 
 # branchについて
-masterがmainブランチです
+masterがmainブランチです.
 すいません、ずっとmainブランチで開発していました。
 
 # 詰まったところ、詰まりそうなところ
