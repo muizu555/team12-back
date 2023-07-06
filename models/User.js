@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({//userIdはobjectIdでひとまずは良いのではないか
+const UserSchema = new mongoose.Schema({//userIdはobjectIdでひとまずは良いのではないか userスキーマに総視聴時間の合計のプロパティがあった方が良さそう
     username: {
         type: String,
         required: true,

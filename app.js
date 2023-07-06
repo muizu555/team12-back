@@ -15,6 +15,7 @@ const authRoute = require("./routes/auth");
 
 
 
+
 app.get("/", (req,res) =>{
     res.send("Hello");
 })
