@@ -5,7 +5,7 @@ require("dotenv").config();
 
 
 
-app.use(express.static("public"));
+//app.use(express.static("public"));
 app.use(express.json());//res.json(data)などを使う時のためのもの
 
 const PORT = 3000;
