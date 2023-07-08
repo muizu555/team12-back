@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const PlaylistSchema = new mongoose.Schema({//playlist
+const PlaylistSchema = new mongoose.Schema({//
     items: {
         type: Array,
         default: [],
@@ -9,7 +9,7 @@ const PlaylistSchema = new mongoose.Schema({//playlist
 })
 
 
-
+ 
 
 
 

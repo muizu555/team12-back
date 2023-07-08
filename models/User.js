@@ -21,16 +21,16 @@ const UserSchema = new mongoose.Schema({//userIdはobjectIdでひとまずは良
         type: String,
     },
     amount: {//総再生時間、その日の 12時くらいにその日のデータを全て消したいよね
-        type: String,
+        type: Number,//もしかしたらStringかも
     },
     desc: {//もし概要欄などを書く場合
         type: String,
         max: 70,
     },
-    playlist: {
+    playlistId: {
         type: String,
     }
-    
+
 },
 
   {timestamps: true }//データを格納した日付と時間を自動的に格納することができる。
