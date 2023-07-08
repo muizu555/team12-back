@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const VideoSchema = new new mongoose.Schema({
     publishedAt: {//動画の再生開始
-        type: Datetime,
+        type: datetime,
         default: true,
     },
     duration: {
