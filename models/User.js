@@ -27,6 +27,10 @@ const UserSchema = new mongoose.Schema({//userIdはobjectIdでひとまずは良
         type: String,
         max: 70,
     },
+    playlist: {
+        type: String,
+    }
+    
 },
 
   {timestamps: true }//データを格納した日付と時間を自動的に格納することができる。
