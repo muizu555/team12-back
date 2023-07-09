@@ -52,8 +52,19 @@ async function myCallback (Playlist, User, interval){//できる
             },
         });
     }
+
     
-    const newPlayList= new Video(data);
+
+
+
+
+
+
+
+
+
+
+    
 }
 
 
