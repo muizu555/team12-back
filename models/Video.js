@@ -6,6 +6,10 @@ const VideoSchema = new mongoose.Schema({
         type: Date,
         default: true,
     },
+    videoId: {
+        type: String,
+        default: true,
+    },
     duration: {
         type: String,
         //default: true

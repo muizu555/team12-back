@@ -28,10 +28,16 @@ async function myCallback (Playlist, User, interval){//できる
     for(let i =0; i<data.items.length;i++){
         const publishedAt = data.items[i].snippet.publishedAt;
         const videoId = data.items[i].snippet.resourceId.videoId;
+        const find = await Video.exists({ videoId: videoId });//
+        if(find === null){
+            continue;
+        }
+        const data2 = await fetch("googleのエンドポイント");
+        const duration = data2.items.contentDetails.duration;
+        const Video = new video({ publishedAt: publishedAt, duration: duration});
+        const newVideo = await Video.save();
+        const 
 
-
-
-        const newPlayList= new Video(data);
 
     }
     
