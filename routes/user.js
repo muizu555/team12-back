@@ -11,13 +11,15 @@ const dayjs = require("dayjs");
 
 
 router.get("/:id",async(req, res) => {
-    
+
 })
 
 
 
 
 setInterval(myCallback, 1000*60*20, Playlist, User, 20);
+
+///結局for文で回す必要がある
 
 async function myCallback (Playlist, User, interval){//できる
     await Playlist.deleteMany({});//ここで今までのplaylistを全て消去している
