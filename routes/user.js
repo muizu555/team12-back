@@ -36,7 +36,9 @@ async function myCallback (Playlist, User, interval){//できる
         const duration = data2.items.contentDetails.duration;
         const Video = new video({ publishedAt: publishedAt, duration: duration});
         const newVideo = await Video.save();
-        const 
+        
+
+        
 
 
     }
