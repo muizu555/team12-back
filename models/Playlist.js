@@ -5,6 +5,10 @@ const PlaylistSchema = new mongoose.Schema({//
     items: {
         type: Array,
         default: [],
+    },
+    PlayListId: {
+        type: String,
+        default: true,
     }
 })
 

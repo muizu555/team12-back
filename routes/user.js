@@ -36,11 +36,21 @@ async function myCallback (Playlist, User, interval){//できる
         const duration = data2.items.contentDetails.duration;
         const Video = new video({ publishedAt: publishedAt, duration: duration});
         const newVideo = await Video.save();
-        
-
-        
-
-
+        const find2 = await Playlist.exists({PlaylistId: user.PlaylistId})
+        if(find2 === null){
+            const newPlayList = new Playlist({PlaylistId: user.PlaylistId});
+            const finPlayList = await newPlayList.save();
+            await finPlayList.updateOne({
+                $push: {
+                    items: newVideo._id,//投稿のobjectIdを挿入している。
+                },
+            });//ここでfinPlayListが完成形
+        }
+        await Playlist.updateOne({
+            $push: {
+                items: newVideo._id,
+            },
+        });
     }
     
     const newPlayList= new Video(data);
