@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const dayjs = require("dayjs");
 
-const VideoSchema = new new mongoose.Schema({
+const VideoSchema = new mongoose.Schema({
     publishedAt: {//動画の再生開始
-        type: datetime,
+        type: Date,
         default: true,
     },
     duration: {
