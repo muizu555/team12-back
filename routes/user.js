@@ -7,7 +7,20 @@ const Video = require("../models/Video");
 //ここにロジックを書く 最後にres.json(user)を返すのが目標
 
 
-router.get("/",)
+
+router.get("/",async(req, res) => {
+
+})
+
+
+setInterval(myCallback, 1000*60*20, 'Parameter 1', 'Parameter 2');
+
+function myCallback(publishedAt, duration, start, end, interval){
+
+}
+
+
+
 
 
 
@@ -22,10 +35,7 @@ router.get("/",)
 
 
 //ここに実際に20分おきに呼び出す関数をかく
-const function 
-(params) {
-    
-}
+
     
 
 
