@@ -6,7 +6,7 @@ const PlaylistSchema = new mongoose.Schema({//
         type: Array,
         default: [],
     },
-    PlayListId: {
+    playListId: {
         type: String,
         default: true,
     }
