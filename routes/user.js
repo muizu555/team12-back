@@ -10,7 +10,7 @@ const dayjs = require("dayjs");
 
 
 
-router.get("/:id",async(req, res) => {
+router.get("",async(req, res) => {//ここのエンドポイントどうする問題　/ or /:id
 
 })
 

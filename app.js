@@ -8,7 +8,7 @@ require("dotenv").config();
 //app.use(express.static("public"));
 app.use(express.json());//res.json(data)などを使う時のためのもの
 
-const PORT = 3000;
+const PORT = 8000;//routing設計を変えました
 
 const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
