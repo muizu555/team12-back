@@ -17,6 +17,8 @@ router.get("/:id",async(req, res) => {
 
 
 
+
+
 setInterval(myCallback, 1000*60*20, Playlist, User, 20);
 
 ///結局for文で回す必要がある
@@ -53,11 +55,7 @@ async function myCallback (Playlist, User, interval){//できる
                 items: newVideo._id,
             },
         });
-
-        
-
-
-
+    
     }
 
 
@@ -80,27 +78,7 @@ async function myCallback (Playlist, User, interval){//できる
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //ここに実際に20分おきに呼び出す関数をかく
-
-    
-
-
-
-
-
-
 
 
 
