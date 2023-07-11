@@ -43,4 +43,78 @@ function parseDuration(durationString) {
   const durationString = 'PT4H12M43S';
   const totalSeconds = parseDuration(durationString);
   console.log(totalSeconds); // 結果を表示
+
+const diff = totalSeconds - dateDiffSecond;
+console.log(diff);
+
+
+
+
+//ここから実際の
+//et now_time = Date.
+
+const utf = new Date();
+const currentDate = new Date(utf.getTime()+9*60*60*1000);
+const prevDate = new Date(currentDate.getTime() - 20*60*1000);
+const val = Math.floor(currentDate);
+
+console.log(currentDate);//現在の時刻を出す方法
+console.log(prevDate);
+console.log(val);
+
+
+
+
+
+
+
+const publishedAt = [
+    "2023-07-02T06:10:17Z",
+    "2023-07-02T05:54:53Z",
+] ;
+
+const duration = [
+    "PT4H12M43S",
+    "PT2H1M43S",
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let total_time = 0;
+
+// first video
+total_time += min(currentDate - publishedAt[0], duration[0]);
+
+// innet//2個目から
+for(let i = 1; i < N; i++){
+    if(publishedAt[i] < prevDate){//これすごい
+        total_time += max(0, min(pub[i - 1] - pub[i], duration[i]) - (prevDate - pub[i]));
+        break;
+    }
+    //ここが本当の計算
+    total_time += min(p[i - 1] - p[i], duration[i]);
+}
+
+console.log(total_time);//20間隔での総視聴時間(予測)
+
+
+
+
+
   
