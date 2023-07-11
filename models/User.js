@@ -6,7 +6,6 @@ const UserSchema = new mongoose.Schema({//userIdはobjectIdでひとまずは良
         required: true,
         min: 3,//placeholderで3~20という風に表示してほしい
         max: 20,
-        unique: true,
     },
     
     followers: {//もし、フォロー、フォロワーの中だけしかランキングを見せたくないという時

@@ -8,7 +8,9 @@ const Playlist = require("../models/Playlist");
 router.post("/register", async(req,res) => {
     try {
         const { username, playlistId } = req.body;
-    
+        console.log(username);
+        console.log(playlistId);
+
         
         const newUser = await new User({
             username: username,

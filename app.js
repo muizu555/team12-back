@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const connectDB = require("./db/connect");
 require("dotenv").config();
@@ -7,7 +8,7 @@ require("dotenv").config();
 
 //app.use(express.static("public"));
 app.use(express.json());//res.json(data)などを使う時のためのもの
-
+app.use(cors())
 const PORT = 8000;//routing設計を変えました
 
 const userRoute = require("./routes/user");
