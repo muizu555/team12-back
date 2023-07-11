@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const PlaylistSchema = new mongoose.Schema({//
+const PlaylistSchema = new mongoose.Schema({//userのobjectIdもuserIdとして保持しておきたいかも
     items: {
         type: Array,
         default: [],
