@@ -7,7 +7,16 @@ const Playlist = require("../models/Playlist");
 
 router.post("/googleauth", async(req,res) => {
     try {
-        const { username, playlistId } = req.body;
+        const { } = req.body;
+
+        //code accessTokenとrefleshTokenに変えるコードを書く
+
+
+
+
+
+
+        //
         console.log(username);
         console.log(playlistId);
 
