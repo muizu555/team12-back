@@ -1,21 +1,17 @@
 const dayjs = require("dayjs");
 
 
-//date型の差分
-let datetime = new Date("2023-07-09T16:36:22Z");
-let dat2 = new Date("2023-07-09T16:26:22Z");
+//date型をNumber型に変換 (西暦1970年からの秒数)
+function D2Num(dateStr) {
+    let datetime = new Date(dateStr);
+    let date0 = new Date(0);
+    let res = Math.floor(Math.abs(datetime - date0) / 1000);
+    return res;
+}
 
-console.log(datetime);
-console.log(dat2);
+console.log(D2Num("2023-07-09T16:36:22Z"));
 
-let dateDiffSecond = Math.floor(Math.abs(datetime - dat2) / 1000);
-console.log(dateDiffSecond);//int型
-
-
-
-
-//durationの話
-
+//durationをNumber型に変換（秒数）
 function parseDuration(durationString) {
     const durationRegex = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/;
     const matches = durationRegex.exec(durationString);
@@ -38,14 +34,14 @@ function parseDuration(durationString) {
     
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     return totalSeconds;
-  }
-  
-  const durationString = 'PT4H12M43S';
-  const totalSeconds = parseDuration(durationString);
-  console.log(totalSeconds); // 結果を表示
+}
 
-const diff = totalSeconds - dateDiffSecond;
-console.log(diff);
+const durationString = 'PT4H12M43S';
+const totalSeconds = parseDuration(durationString);
+console.log(totalSeconds); // 結果を表示
+
+//const diff = totalSeconds - dateDiffSecond;
+//console.log(diff);
 
 
 
@@ -93,28 +89,22 @@ const duration = [
 
 
 
-
-
-
 let total_time = 0;
 
 // first video
-total_time += min(currentDate - publishedAt[0], duration[0]);
+total_time += Math.min(D2Num(currentDate) - D2Num(publishedAt[0]), parseDuration(duration[0]));
+console.log('!' + total_time);
 
-// innet//2個目から
+// inner//2個目から
 for(let i = 1; i < N; i++){
     if(publishedAt[i] < prevDate){//これすごい
-        total_time += max(0, min(pub[i - 1] - pub[i], duration[i]) - (prevDate - pub[i]));
+        total_time += Math.max(0, Math.min(D2Num(publishedAt[i - 1]) - D2Num(publishedAt[i], parseDuration(duration[i])))
+                                  - (D2Num(prevDate) - D2Num(publishedAt[i])));
         break;
     }
     //ここが本当の計算
-    total_time += min(p[i - 1] - p[i], duration[i]);
+    total_time += Math.min(D2Num(publishedAt[i - 1]) - D2Num(publishedAt[i]), parseDuration(duration[i]));
 }
 
-console.log(total_time);//20間隔での総視聴時間(予測)
-
-
-
-
-
-  
+console.log(total_time);//20間隔での総視聴時間(秒数)(予測)
+//satisfies
