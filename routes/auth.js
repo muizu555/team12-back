@@ -6,11 +6,15 @@ const Auth = require("../models/Auth");
 const { google } = require('googleapis');
 //const bcrypt = require("bcrypt");
 require("dotenv").config();
+const axios = require("axios");
+
 
 // Google OAuth2のクライアント情報
 const clientId = process.env.YOUR_CLIENT_ID;
 const clientSecret = process.env.YOUR_CLIENT_SECRET;
-const redirectUri = process.env.YOUR_REDIRECT_URI;
+const redirectUri = process.env.YOUR_REDIRECT_URL;
+
+
 
 
 
@@ -42,27 +46,35 @@ router.post("/register", async(req,res) => {
 router.post("/googleauth", async (req, res) => {
   try {
     const code = req.body.code;
-    console.log(code);
+    //console.log(code);
+
+    const oauth2Client = new google.auth.OAuth2(
+        clientId,
+        clientSecret,
+        redirectUri
+    );
 
     // アクセストークンとリフレッシュトークンを取得
-    const { tokens } = await google.auth.getAccessToken()
-    
-    ({
-      code,
-      client_id: clientId,
-      client_secret: clientSecret,
-      redirect_uri: redirectUri,
-    });
+    const { tokens } = await oauth2Client.getToken(code)
+    oauth2Client.setCredentials(tokens);
+    console.log(tokens);
 
-    const accessToken = tokens.access_token;
-    const refreshToken = tokens.refresh_token;
-    console.log(accessToken);
+    const accessToken = await oauth2Client.getAccessToken();
+
+    
+
+
+    console.log(accessToken.token);
+    console.log(tokens.refresh_token);
+    
+
+
 
     // 取得したトークンを利用して何かを実行するなどの処理を追加する
     const newAuth = new Auth({
         userId: req.session.user_id,
-        accessToken: accessToken,
-        refreshToken: refreshToken,
+        accessToken: accessToken.token,
+        refreshToken: tokens.refresh_token,
     });
 
     const auth = await newAuth.save();
