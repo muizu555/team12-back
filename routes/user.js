@@ -26,6 +26,18 @@ setInterval(myCallback, 1000*60*20, Playlist, User, 20);
 ///結局for文で回す必要がある
 
 
+/*const getData = await axios.get(`https://www.googleapis.com/youtube/v3/playlistItems`, { これで実際に叩く
+    params: {
+      access_token: newAccessToken.data.accessToken,
+      part: "snippet",
+      playlistId: ""
+    },
+  });*/
+
+
+
+
+
 
 async function myCallback (Playlist, User, interval){//できる
     await Playlist.deleteMany({});//ここで今までのplaylistを全て消去している
