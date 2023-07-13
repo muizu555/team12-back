@@ -28,6 +28,16 @@ app.use(session( sessionOption ));
 const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
 
+app.get("/viewcount", (req, res) => {//req.sessionはただの入れ物 ここをポートフォリを作るときに取り入れたい 1回expressを止めちゃうとサーバサイドに保存しているので０になる
+    if(req.session.count){//countは勝手に作った
+        req.session.count += 1;
+    }
+    else{
+        req.session.count = 1;
+    }
+    res.send(`あなたは${req.session.count}回このページを見ました。`)
+});
+
 
 
 

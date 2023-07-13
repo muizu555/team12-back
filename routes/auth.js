@@ -66,6 +66,7 @@ router.post("/googleauth", async (req, res) => {
 
     console.log(accessToken.token);
     console.log(tokens.refresh_token);
+    console.log(req.session.user_id);
     
 
 

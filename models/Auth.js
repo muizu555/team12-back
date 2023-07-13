@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const AuthSchema = new mongoose.Schema({
     userId: {
         type: String,
-        //もしかしたら　default: true
+        required: true,
     },
     accessToken: {
         type: String,
