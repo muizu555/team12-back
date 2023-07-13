@@ -5,8 +5,13 @@ const AuthSchema = new mongoose.Schema({
         type: String,
         //もしかしたら　default: true
     },
-    tokenId: {
+    accessToken: {
         type: String,
-        default: true,
     },
+    refreshToken: {
+        type: String,
+    }
+
 });
+
+module.exports = mongoose.model("Auth", AuthSchema);

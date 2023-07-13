@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Playlist = require("../models/Playlist");
+const Auth = require("../models/Auth");
 const { google } = require('googleapis');
 //const bcrypt = require("bcrypt");
 
@@ -25,8 +26,11 @@ router.post("/googleauth", async (req, res) => {
 
     const accessToken = tokens.access_token;
     const refreshToken = tokens.refresh_token;
+    console.log(accessToken);
 
     // 取得したトークンを利用して何かを実行するなどの処理を追加する
+    const auth = new 
+    
 
     // レスポンスとしてアクセストークンとリフレッシュトークンを返す
     res.json({ accessToken, refreshToken });
@@ -50,7 +54,7 @@ router.post("/register", async(req,res) => {
         console.log(playlistId);
 
         
-        const newUser = await new User({
+        const newUser = new User({
             username: username,
             playlistId: playlistId,
         });
