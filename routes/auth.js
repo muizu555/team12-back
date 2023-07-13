@@ -5,11 +5,12 @@ const Playlist = require("../models/Playlist");
 const Auth = require("../models/Auth");
 const { google } = require('googleapis');
 //const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 // Google OAuth2のクライアント情報
-const clientId = 'YOUR_CLIENT_ID';
-const clientSecret = 'YOUR_CLIENT_SECRET';
-const redirectUri = 'YOUR_REDIRECT_URI';
+const clientId = process.env.YOUR_CLIENT_ID;
+const clientSecret = process.env.YOUR_CLIENT_SECRET;
+const redirectUri = process.env.YOUR_REDIRECT_URI;
 
 router.post("/googleauth", async (req, res) => {
   try {
@@ -29,7 +30,11 @@ router.post("/googleauth", async (req, res) => {
     console.log(accessToken);
 
     // 取得したトークンを利用して何かを実行するなどの処理を追加する
-    const auth = new 
+    const auth = new Auth({
+        userId = req.session.
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+    })
     
 
     // レスポンスとしてアクセストークンとリフレッシュトークンを返す
