@@ -32,7 +32,15 @@ router.post("/register", async(req,res) => {
             playlistId: playlistId,
         });
         const user = await newUser.save();
-        req.session.user_id = user._id;  ///ここでユーザーIDをセッションに保存している
+        res.cookie('userId', user._id.toString());
+        console.log("headers", res.getHeaders(), {
+          httpOnly: false,
+        })
+        //req.session.user_id = user._id.toString();  ///ここでユーザーIDをセッションに保存している
+        
+        
+
+
         const newPlayList = await new Playlist({playListId: playlistId});
         const playlist = await newPlayList.save();
         //req.session.user_id = user._id;  //一応sessionに保存している 後で実装
@@ -66,14 +74,15 @@ router.post("/googleauth", async (req, res) => {
 
     console.log(accessToken.token);
     console.log(tokens.refresh_token);
-    console.log(req.session.user_id);
+    console.log("cookies: ", req.cookies);
+    console.log("cookies.userid: ", req.cookies.userId);
     
 
 
 
     // 取得したトークンを利用して何かを実行するなどの処理を追加する
     const newAuth = new Auth({
-        userId: req.session.user_id,
+        userId: req.cookies.userId,
         accessToken: accessToken.token,
         refreshToken: tokens.refresh_token,
     });
@@ -88,10 +97,6 @@ router.post("/googleauth", async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-
-
-
 
 
 

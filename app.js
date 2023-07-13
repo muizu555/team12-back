@@ -4,12 +4,27 @@ const app = express();
 const connectDB = require("./db/connect");
 require("dotenv").config();
 const session = require("express-session");
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 
 
 
 //app.use(express.static("public"));
 app.use(express.json());//res.json(data)などを使う時のためのもの
-app.use(cors())
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}));
+
+/*
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+    next()
+})
+*/
+app.use(cookieParser());
 const PORT = 8000;//routing設計を変えました
 
 const sessionOption = {//resaveのエラーを消した
@@ -17,7 +32,7 @@ const sessionOption = {//resaveのエラーを消した
     resave: false,
     saveUninitialized: true,//way to save session
     cookie: {
-        httpOnly: true,
+        // httpOnly: true,
         maxAge: 1000*60*60*24*7,
     }
 };
