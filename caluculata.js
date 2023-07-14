@@ -52,7 +52,7 @@ console.log(totalSeconds); // 結果を表示
 const utf = new Date();
 const currentDate = new Date(utf.getTime()+9*60*60*1000);
 const prevDate = new Date(currentDate.getTime() - 20*60*1000);
-const val = Math.floor(currentDate);
+const val = Math.floor(currentDate / 1000);
 
 console.log(currentDate);//現在の時刻を出す方法
 console.log(prevDate);
