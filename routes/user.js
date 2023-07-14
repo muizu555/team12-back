@@ -136,9 +136,23 @@ router.get("/getdata", async (req, res) => {
                 console.log(total_time);
             }
             console.log(total_time);
-
+            console.log(user[i].amount);
+            if(user[i].amount===undefined){
+                await user[i].updateOne({
+                    $set: {
+                        amount: total_time,//投稿のobjectIdを挿入している。
+                    },
+                })
+            }
+            else{
+                await user[i].updateOne({
+                    $set: {
+                        amount: total_time +user[i].amount,//投稿のobjectIdを挿入している。
+                    },
+                })
+            }
             //ここで実際にDBに入れる。total_timeはNumber型
-            //await 
+            
         }
         res.status(200).json("成功しました");
     }
