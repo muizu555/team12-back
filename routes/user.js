@@ -17,22 +17,38 @@ router.get("", async (req, res) => {//ここのエンドポイントどうする
 
 
 
+
+
 router.get("/getdata", async (req, res) => {
 
     try {
         const user = await Auth.findOne({userId: req.cookies.userId});
-        console.log(user.accessToken);
+        const user2 = await User.findOne({_id: req.cookies.userId});
+        console.log(user);
+        console.log("hoge",user2);
+        const playlistId = user2.playlistId;
+        //console.log(user.accessToken);
         
         const getData = await axios.get(`https://www.googleapis.com/youtube/v3/playlistItems`, { //これで実際に叩く
             params: {
                 access_token: user.accessToken,
                 part: "snippet",
-                playlistId: "PLWz2hCOEVvaYHQd8k-rmJDldC0snKrLNA"
+                playlistId: playlistId
             },
         });
-        
-        console.log("hoge");
-        console.log(getData.data.items[0].snippet.resourceId.videoId);
+        const videoId = getData.data.items[0].snippet.resourceId.videoId;
+        const publishedAt = getData.data.items[0].snippet.publishedAt;
+
+        const getvideo = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, { //これで実際に叩く
+            params: {
+                access_token: user.accessToken,
+                part: "contentDetails",
+                id: videoId,
+            },
+        });
+
+        console.log(publishedAt);
+        console.log(getvideo.data.items[0].contentDetails.duration);
         res.status(200).json(getData.data.items[0].snippet.publishedAt);//多分for文を使うので、添字はiになるはず
 
     }
