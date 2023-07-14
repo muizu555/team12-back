@@ -77,7 +77,7 @@ router.get("/getdata", async (req, res) => {
 
     try {
         for(let i = 0;i<user.length;i++){
-            if(i>10) break;
+            if(i>10) break;//10人以上は叩けなくなるから注意
             const playlistId = user[i].playlistId;
             const user2 = await Auth.findOne({userId: user[i]._id});
             const getData = await axios.get(`https://www.googleapis.com/youtube/v3/playlistItems`, { //これで実際に叩く
@@ -136,6 +136,9 @@ router.get("/getdata", async (req, res) => {
                 console.log(total_time);
             }
             console.log(total_time);
+
+            //ここで実際にDBに入れる。total_timeはNumber型
+            //await 
         }
         res.status(200).json("成功しました");
     }
