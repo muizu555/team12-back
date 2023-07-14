@@ -4,15 +4,15 @@ const dayjs = require("dayjs");
 const VideoSchema = new mongoose.Schema({
     publishedAt: {//動画の再生開始
         type: Date,
-        default: true,
+        require: true,
     },
     videoId: {
         type: String,
-        default: true,
+        require: true,
     },
     duration: {
         type: String,
-        //default: true
+        require: true
     },
 })
 

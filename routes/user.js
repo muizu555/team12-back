@@ -36,21 +36,29 @@ router.get("/getdata", async (req, res) => {
                 playlistId: playlistId
             },
         });
-        const videoId = getData.data.items[0].snippet.resourceId.videoId;
-        const publishedAt = getData.data.items[0].snippet.publishedAt;
-
-        const getvideo = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, { //これで実際に叩く
-            params: {
-                access_token: user.accessToken,
-                part: "contentDetails",
-                id: videoId,
-            },
-        });
-
-        console.log(publishedAt);
-        console.log(getvideo.data.items[0].contentDetails.duration);
-        res.status(200).json(getData.data.items[0].snippet.publishedAt);//多分for文を使うので、添字はiになるはず
-
+        
+        for(let i =0; i<getData.data.items.length; i++){
+            if(i >10) break;
+            const videoId = getData.data.items[i].snippet.resourceId.videoId;
+            const publishedAt = getData.data.items[i].snippet.publishedAt;
+            const getvideo = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, { //これで実際に叩く
+                params: {
+                    access_token: user.accessToken,
+                    part: "contentDetails",
+                    id: videoId,
+                },
+            });
+            const duration = getvideo.data.items[0].contentDetails.duration;
+            const newVideo = new Video({
+                publishedAt: publishedAt,
+                videoId: videoId,
+                duration: duration
+            });
+            await newVideo.save();
+        }
+        const video = await Video.find({});
+        res.status(200).json(video);
+    
     }
     catch (err) {
         console.log(err);
@@ -59,21 +67,7 @@ router.get("/getdata", async (req, res) => {
 
 });
 
-router.get("/getvideo", async(req, res) => {
-    
-    
-    const getvideo = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, { //これで実際に叩く
-            params: {
-                access_token: hoge.accessToken,
-                part: "contentDetails",
-                id: "WE9Q7yo-Tmg",
-            },
-        });
-        
-    console.log(getvideo.data.items[0].contentDetails.duration);
-    res.status(200).json(getvideo.data.items[0].contentDetails.duration);   
 
-})
 
 
 
