@@ -63,7 +63,7 @@ router.post("/googleauth", async (req, res) => {
     );
 
     // アクセストークンとリフレッシュトークンを取得
-    const { tokens } = await oauth2Client.getToken(code)
+    const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
     console.log(tokens);
 
