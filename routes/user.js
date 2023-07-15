@@ -66,22 +66,16 @@ router.get("/", async (req, res) => {//ここのエンドポイントどうす�
 
     const user = await User.find({});
     console.log(user);
-    const user2 = user;
-    user2.sort(function(a, b){
-        if(a.amount > b.amount) return 1
-        else if(a.amount < b.amount) return -1;
-        else return 0;
-    });
-    console.log(user2);
 
     //右側のuserの判別
     if(!req.cookies.userId){
-        res.status(200).json(user);
+        res.status(200).json({user});//ちゃんと型を統一する
     }
     else{
         const realuser = await User.findOne({_id: req.cookies.userId});
+ 
         console.log("hoge",realuser);
-        res.status(200).json({user2,realuser});//user2の配列がランキング用、realuserが見てる人を特定している
+        res.status(200).json({user,realuser});//user2の配列がランキング用、realuserが見てる人を特定している
     }
 });
 
@@ -239,6 +233,43 @@ router.get("/getdata", async (req, res) => {
             //ここで実際にDBに入れる。total_timeはNumber型
             
         }
+
+        //userが出来上がった配列//dbに保存されている
+        const user2 = user;
+        user2.sort(function(a, b){
+            if(a.amount > b.amount) return -1;
+            else if(a.amount < b.amount) return 1;
+            else return 0;
+        });
+    
+        await user2[0].updateOne({
+            $set: {
+                rank: "1",//投稿のobjectIdを挿入している。
+            },
+        })
+        let prev = 1;
+        for(let i = 1; i < user2.length; i++){
+            if(user2[i].amount < user2[i - 1].amount){
+                //(i + 1).toString();
+                console.log("h", i + 1);
+                await user2[i].updateOne({
+                    $set: {
+                        rank: String(i + 1),//投稿のobjectIdを挿入している。(prev).toString();
+                    },
+                })
+                prev = i + 1;
+            }
+            else{
+                await user2[i].updateOne({
+                    $set: {
+                        rank: String(prev),//投稿のobjectIdを挿入している。(prev).toString();
+                    },
+                })   
+            }
+        }
+        console.log(user2);//ランクが格納されたDB
+    
+
         res.status(200).json("成功しました");
     }
     catch (err) {
@@ -247,102 +278,6 @@ router.get("/getdata", async (req, res) => {
     }
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-setInterval(myCallback, 1000 * 60 * 20, Playlist, User, 20);
-
-///結局for文で回す必要がある
-
-
-
-
-
-
-
-
-
-async function myCallback(Playlist, User, interval) {//できる
-    await Playlist.deleteMany({});//ここで今までのplaylistを全て消去している
-    //ここで登録している全てのユーザーに対してapiを叩く
-    const user = await User.find({});//全ユーザーを取ってくる
-    for (let i = 0; i < user.length; i++) {//ここで一人ずつ叩いている
-        const userId = user[i]._id;
-        //ここでuserIdを持った状態で叩く、多分ここはtokenになるはずである
-        const data = await fetch("googleエンドポイント");//個人のデータはとってこれている
-        for (let i = 0; i < data.items.length; i++) {
-            const publishedAt = data.items[i].snippet.publishedAt;
-            const videoId = data.items[i].snippet.resourceId.videoId;
-            const find = await Video.exists({ videoId: videoId });//
-            if (find === null) {
-                continue;
-            }
-            const data2 = await fetch("googleのエンドポイント");
-            const duration = data2.items.contentDetails.duration;
-            const Video = new video({ publishedAt: publishedAt, duration: duration });
-            const newVideo = await Video.save();
-            const find2 = await Playlist.exists({ PlaylistId: user.PlaylistId })
-            if (find2 === null) {
-                const newPlayList = new Playlist({ PlaylistId: user.PlaylistId });
-                const finPlayList = await newPlayList.save();
-                await finPlayList.updateOne({
-                    $push: {
-                        items: newVideo._id,//投稿のobjectIdを挿入している。
-                    },
-                });//ここでfinPlayListが完成形
-            }
-            await Playlist.updateOne({
-                $push: {
-                    items: newVideo._id,
-                },
-            });
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
