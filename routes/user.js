@@ -127,7 +127,7 @@ router.get("/getdata", async (req, res) => {
 
     try {
         for(let i = 0;i<user.length;i++){
-            if(i>10) break;//10人以上は叩けなくなるから注意
+            if(i>15) break;//10人以上は叩けなくなるから注意
             const playlistId = user[i].playlistId;
             const user2 = await Auth.findOne({userId: user[i]._id});
 
@@ -180,7 +180,7 @@ router.get("/getdata", async (req, res) => {
             let dur = [];
             let total_time = 0;//こいつを一人ごとに出せれば良い
             for(let j = 0; j<getData.data.items.length; j++){
-                if(j >10) break;
+                if(j >15) break;
                 const videoId = getData.data.items[j].snippet.resourceId.videoId;
                 const publishedAt = getData.data.items[j].snippet.publishedAt;
                 pubAt.push(D2Num(publishedAt));//ここで格納
