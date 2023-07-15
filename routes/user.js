@@ -57,9 +57,17 @@ function parseDuration(durationString) {
 
 router.get("/", async (req, res) => {//ここのエンドポイントどうする問題　/ or /:id
     const user = await User.find({});
-    console.log(user[0]);
+    console.log(user);
+    const user2 = user;
+    user2.sort(function(a, b){
+        if(a.amount > b.amount) return 1
+        else if(a.amount < b.amount) return -1;
+        else return 0;
+    });
+    console.log(user2);
 
-    res.status(200).json(user);
+
+    res.status(200).json(user2);
 });
 
 
