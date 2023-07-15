@@ -72,6 +72,34 @@ router.get("/", async (req, res) => {//ここのエンドポイントどうす�
     });
     console.log(user);
 
+    await user[0].updateOne({
+        $set: {
+            rank: "1",//投稿のobjectIdを挿入している。
+        },
+    })
+    let prev = 1;
+    for(let i = 1; i < user.length; i++){
+        if(user[i].amount < user[i - 1].amount){
+            //(i + 1).toString();
+            console.log("h", i + 1);
+            await user[i].updateOne({
+                $set: {
+                    rank: String(i + 1),//投稿のobjectIdを挿入している。(prev).toString();
+                },
+            })
+            prev = i + 1;
+            console.log(user[i].rank);
+        }
+        else{
+            await user[i].updateOne({
+                $set: {
+                    rank: String(prev),//投稿のobjectIdを挿入している。(prev).toString();
+                },
+            })   
+        }
+    }
+
+
     //右側のuserの判別
     if(!req.cookies.userId){
         res.status(200).json({user});//ちゃんと型を統一する
@@ -102,18 +130,27 @@ router.get("/getdata", async (req, res) => {
             if(i>10) break;//10人以上は叩けなくなるから注意
             const playlistId = user[i].playlistId;
             const user2 = await Auth.findOne({userId: user[i]._id});
+            console.log(user2);
+            //console.log("hoge");
             const oauth2Client = new google.auth.OAuth2(
                 clientId,
                 clientSecret,
                 redirectUri
             );
+            //console.log("peko");
             const tokens = user2.tokens;
+            //console.log(tokens);
             oauth2Client.setCredentials(JSON.parse(tokens));
+            const refreshToken = JSON.parse(tokens).refresh_token
+            console.log('refreshToken', refreshToken);
             //
             oauth2Client.on('tokens', async(tokens) => {
                 await user2.updateOne({
                     $set: {
-                        tokens: JSON.stringify(tokens)
+                        tokens: JSON.stringify({
+                            ...tokens,
+                            refresh_token: refreshToken
+                        })
                     },
                 })
             });
@@ -125,7 +162,7 @@ router.get("/getdata", async (req, res) => {
                 continue;
             }
             
-
+            //ここでrefreshTokenのエラーになっている
             const getData = await service.playlistItems.list({
                 auth: oauth2Client,//ここ問題
                 part: "snippet",
@@ -228,7 +265,7 @@ router.get("/getdata", async (req, res) => {
                 }
             }
             else{
-                if(hour == 0 && 0 <= minute && minute < 20){
+                if(hour == 13 && 0 <= minute && minute < 20){
                     await user[i].updateOne({
                         $set: {
                             amount: 0,//投稿のobjectIdを挿入している。
@@ -250,6 +287,7 @@ router.get("/getdata", async (req, res) => {
 
         //userが出来上がった配列//dbに保存されている
         const user2 = user;
+        console.log("muizu",user2);
         user2.sort(function(a, b){
             if(a.amount > b.amount) return -1;
             else if(a.amount < b.amount) return 1;
@@ -272,6 +310,7 @@ router.get("/getdata", async (req, res) => {
                     },
                 })
                 prev = i + 1;
+                console.log(user2[i].rank);
             }
             else{
                 await user2[i].updateOne({

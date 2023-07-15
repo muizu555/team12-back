@@ -87,6 +87,7 @@ router.post("/googleauth", async (req, res) => {
     });
 
     const auth = await newAuth.save();
+    //ここで
 
     // レスポンスとしてアクセストークンとリフレッシュトークンを返す
     res.status(200).json(auth);
