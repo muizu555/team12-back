@@ -14,7 +14,7 @@ app.use(cookieParser())
 app.use(express.json());//res.json(data)などを使う時のためのもの
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://team12-front.vercel.app"],
     credentials: true
 }));
 

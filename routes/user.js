@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Playlist = require("../models/Playlist");
-const Video = require("../models/Video");
+//const Video = require("../models/Video");
 const dayjs = require("dayjs");
 const axios = require("axios");
 const Auth = require("../models/Auth");
@@ -221,12 +221,14 @@ router.get("/getdata", async (req, res) => {
                     //ここが本当の計算
                     total_time += Math.min(pubAt[j - 1] - pubAt[j], dur[j]);
                 }
+                /*
                 const newVideo = new Video({
                     publishedAt: publishedAt,
                     videoId: videoId,
                     duration: duration
                 });
                 await newVideo.save();
+                */
                 console.log(j);
                 console.log(total_time);
             }
