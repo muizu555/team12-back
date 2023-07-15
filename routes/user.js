@@ -130,6 +130,7 @@ router.get("/getdata", async (req, res) => {
             if(i>10) break;//10人以上は叩けなくなるから注意
             const playlistId = user[i].playlistId;
             const user2 = await Auth.findOne({userId: user[i]._id});
+
             console.log(user2);
             //console.log("hoge");
             const oauth2Client = new google.auth.OAuth2(
@@ -137,7 +138,8 @@ router.get("/getdata", async (req, res) => {
                 clientSecret,
                 redirectUri
             );
-            //console.log("peko");
+            console.log("peko");
+            
             const tokens = user2.tokens;
             //console.log(tokens);
             oauth2Client.setCredentials(JSON.parse(tokens));

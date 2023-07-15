@@ -5,7 +5,7 @@ const connectDB = require("./db/connect");
 require("dotenv").config();
 const session = require("express-session");
 const cookieParser = require('cookie-parser')
-app.use(cookieParser())
+
 
 
 
@@ -32,8 +32,10 @@ const sessionOption = {//resaveのエラーを消した
     resave: false,
     saveUninitialized: true,//way to save session
     cookie: {
-        // httpOnly: true,
+        httpOnly: true,
         maxAge: 1000*60*60*24*7,
+        secure: true,
+        sameSite: "none",
     }
 };
 
