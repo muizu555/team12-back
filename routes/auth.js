@@ -32,7 +32,12 @@ router.post("/register", async(req,res) => {
             playlistId: playlistId,
         });
         const user = await newUser.save();
-        res.cookie('userId', user._id.toString());
+        res.cookie('userId', user._id.toString(),{
+          httpOnly: true,
+          maxAge: 1000*60*60*24*7,
+          secure: true,
+          sameSite: "none",
+      });
         console.log("headers", res.getHeaders(), {
           httpOnly: false,
         })
