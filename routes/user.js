@@ -65,6 +65,11 @@ function parseDuration(durationString) {
 router.get("/", async (req, res) => {//ここのエンドポイントどうする問題　/ or /:id
 
     const user = await User.find({});
+    user.sort(function(a, b){
+        if(a.amount > b.amount) return -1;
+        else if(a.amount < b.amount) return 1;
+        else return 0;
+    });
     console.log(user);
 
     //右側のuserの判別
@@ -113,13 +118,22 @@ router.get("/getdata", async (req, res) => {
                 })
             });
             const service = google.youtube('v3');
+            //console.log("hoge");ここまではいけている
+            console.log(playlistId);
+            if(playlistId[0] !== 'P' && playlistId[1] !== 'L') {
+                await user[i].deleteOne();
+                continue;
+            }
+            
+
             const getData = await service.playlistItems.list({
                 auth: oauth2Client,//ここ問題
                 part: "snippet",
                 playlistId: playlistId
             }); 
+            
 
-            console.log(getData);
+            console.log("!!!",getData);
             
             
             //console.log(getData.data.items[0].snippet.publishedAt);
@@ -267,7 +281,7 @@ router.get("/getdata", async (req, res) => {
                 })   
             }
         }
-        console.log(user2);//ランクが格納されたDB
+        console.log("aaa",user2);//ランクが格納されたDB
     
 
         res.status(200).json("成功しました");
