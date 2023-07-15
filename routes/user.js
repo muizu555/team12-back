@@ -56,6 +56,7 @@ function parseDuration(durationString) {
 
 
 router.get("/", async (req, res) => {//ここのエンドポイントどうする問題　/ or /:id
+    
     const user = await User.find({});
     console.log(user);
     const user2 = user;
