@@ -67,11 +67,15 @@ router.get("/", async (req, res) => {//ここのエンドポイントどうす�
     });
     console.log(user2);
 
-    const realuser = await User.findOne({_id: req.cookies.userId});
-    console.log("hoge",realuser);
-
-
-    res.status(200).json({user2,realuser});//user2の配列がランキング用、realuserが見てる人を特定している
+    //右側のuserの判別
+    if(!req.cookies.userId){
+        res.status(200).json(user);
+    }
+    else{
+        const realuser = await User.findOne({_id: req.cookies.userId});
+        console.log("hoge",realuser);
+        res.status(200).json({user2,realuser});//user2の配列がランキング用、realuserが見てる人を特定している
+    }
 });
 
 
