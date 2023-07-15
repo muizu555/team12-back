@@ -136,7 +136,7 @@ router.get("/getdata", async (req, res) => {
                 console.log(total_time);
             }
             console.log(total_time);
-            console.log(user[i].amount);
+            console.log("hoge",user[i].amount);
 
 
             let hour = currentDate.getHours();
@@ -147,26 +147,45 @@ router.get("/getdata", async (req, res) => {
             console.log("MINUTE" + minute);
             
             if(user[i].amount===undefined){
+                /*
                 await user[i].updateOne({
                     $set: {
                         amount: total_time,//投稿のobjectIdを挿入している。
                     },
                 });
-            }
-            if(hour == 0 && 0 <= minute && minute < 20){
-                await user[i].updateOne({
-                    $set: {
-                        amount: 0,//投稿のobjectIdを挿入している。
-                    },
-                });
+                */
+                if(hour == 0 && 0 <= minute && minute < 20){
+                    await user[i].updateOne({
+                        $set: {
+                            amount: 0,//投稿のobjectIdを挿入している。
+                        },
+                    });
+                }
+                else{
+                    await user[i].updateOne({
+                        $set: {
+                            amount: total_time,//投稿のobjectIdを挿入している。
+                        },
+                    });
+                }
             }
             else{
-                await user[i].updateOne({
-                    $set: {
-                        amount: total_time + user[i].amount,//投稿のobjectIdを挿入している。
-                    },
-                });
+                if(hour == 0 && 0 <= minute && minute < 20){
+                    await user[i].updateOne({
+                        $set: {
+                            amount: 0,//投稿のobjectIdを挿入している。
+                        },
+                    });
+                }
+                else{
+                    await user[i].updateOne({
+                        $set: {
+                            amount: total_time + user[i].amount,//投稿のobjectIdを挿入している。
+                        },
+                    });
+                }
             }
+            console.log(user[i].amount);
             //ここで実際にDBに入れる。total_timeはNumber型
             
         }
