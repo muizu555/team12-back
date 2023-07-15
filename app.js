@@ -25,6 +25,8 @@ app.use((req, res, next) => {
 })
 */
 app.use(cookieParser());
+app.set('trust proxy', 1);
+
 const PORT = 8000;//routing設計を変えました
 
 const sessionOption = {//resaveのエラーを消した
