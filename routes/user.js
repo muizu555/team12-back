@@ -56,7 +56,7 @@ function parseDuration(durationString) {
 
 
 router.get("/", async (req, res) => {//ここのエンドポイントどうする問題　/ or /:id
-    
+
     const user = await User.find({});
     console.log(user);
     const user2 = user;
@@ -67,8 +67,11 @@ router.get("/", async (req, res) => {//ここのエンドポイントどうす�
     });
     console.log(user2);
 
+    const realuser = await User.findOne({_id: req.cookies.userId});
+    console.log("hoge",realuser);
 
-    res.status(200).json(user2);
+
+    res.status(200).json({user2,realuser});//user2の配列がランキング用、realuserが見てる人を特定している
 });
 
 
