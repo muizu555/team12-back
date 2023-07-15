@@ -6,6 +6,13 @@ const Video = require("../models/Video");
 const dayjs = require("dayjs");
 const axios = require("axios");
 const Auth = require("../models/Auth");
+const { google } = require('googleapis');
+require("dotenv").config();
+
+
+const clientId = process.env.YOUR_CLIENT_ID;
+const clientSecret = process.env.YOUR_CLIENT_SECRET;
+const redirectUri = process.env.YOUR_REDIRECT_URL;
 
 //ここにロジックを書く 最後にres.json(user)を返すのが目標
 
@@ -96,13 +103,31 @@ router.get("/getdata", async (req, res) => {
             if(i>10) break;//10人以上は叩けなくなるから注意
             const playlistId = user[i].playlistId;
             const user2 = await Auth.findOne({userId: user[i]._id});
-            const getData = await axios.get(`https://www.googleapis.com/youtube/v3/playlistItems`, { //これで実際に叩く
-                params: {
-                    access_token: user2.accessToken,
-                    part: "snippet",
-                    playlistId: playlistId
-                },
+            const oauth2Client = new google.auth.OAuth2(
+                clientId,
+                clientSecret,
+                redirectUri
+            );
+            const tokens = user2.tokens;
+            oauth2Client.setCredentials(JSON.parse(tokens));
+            //
+            oauth2Client.on('tokens', async(tokens) => {
+                await user2.updateOne({
+                    $set: {
+                        tokens: JSON.stringify(tokens)
+                    },
+                })
             });
+            const service = google.youtube('v3');
+            const getData = await service.playlistItems.list({
+                auth: oauth2Client,//ここ問題
+                part: "snippet",
+                playlistId: playlistId
+            }); 
+
+            console.log(getData);
+            
+            
             //console.log(getData.data.items[0].snippet.publishedAt);
             let pubAt = [];
             let dur = [];
@@ -113,13 +138,22 @@ router.get("/getdata", async (req, res) => {
                 const publishedAt = getData.data.items[j].snippet.publishedAt;
                 pubAt.push(D2Num(publishedAt));//ここで格納
     
-                const getvideo = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, { //これで実際に叩く
-                    params: {
-                        access_token: user2.accessToken,
-                        part: "contentDetails",
-                        id: videoId,
-                    },
-                });
+                // const getvideo = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, { //これで実際に叩く
+                //     params: {
+                //         access_token: user2.tokens.access_token,
+                //         part: "contentDetails",
+                //         id: videoId,
+                //     },
+                // });
+
+                const getvideo = await service.videos.list({
+                    auth: oauth2Client,//ここ問題
+                    part: "contentDetails",
+                    id: videoId,
+                }); 
+
+
+
                 const duration = getvideo.data.items[0].contentDetails.duration;
                 dur.push(parseDuration(duration));//ここで格納
 

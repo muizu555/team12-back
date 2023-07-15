@@ -83,8 +83,7 @@ router.post("/googleauth", async (req, res) => {
     // 取得したトークンを利用して何かを実行するなどの処理を追加する
     const newAuth = new Auth({
         userId: req.cookies.userId,
-        accessToken: accessToken.token,
-        refreshToken: tokens.refresh_token,
+        tokens: JSON.stringify(tokens)
     });
 
     const auth = await newAuth.save();
